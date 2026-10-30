@@ -1,0 +1,56 @@
+/* ---------- Base ---------- */
+body {
+  background-color: #f4f6f9;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* ---------- Navbar ---------- */
+.navbar-brand {
+  letter-spacing: 0.5px;
+}
+
+/* ---------- Lesson cards ---------- */
+.lesson-card {
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  border: none;
+  border-radius: 12px;
+}
+
+.lesson-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
+}
+
+.lesson-card .card-title {
+  font-weight: 600;
+  color: #1d3557;
+}
+
+.lesson-card .fa-3x {
+  color: #0d6efd;
+}
+
+/* ---------- Buttons ---------- */
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+/* ---------- Cart table ---------- */
+.table td,
+.table th {
+  vertical-align: middle;
+}
+
+/* ---------- Checkout card ---------- */
+.card.shadow-sm {
+  border: none;
+  border-radius: 12px;
+}
+
+/* ---------- Responsive tweaks ---------- */
+@media (max-width: 576px) {
+  .lesson-card .fa-3x {
+    font-size: 2rem;
+  }
+}
