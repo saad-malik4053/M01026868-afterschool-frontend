@@ -1,5 +1,13 @@
+/* =============================================================
+   API module — all communication with the Express back-end
+   uses fetch() with promises
+   ============================================================= */
+
 const API_BASE_URL = 'http://localhost:3000';
 
+/* ----------------------------------------------------------
+   GET /lessons — retrieve all lessons
+   ---------------------------------------------------------- */
 function getLessons() {
   return fetch(`${API_BASE_URL}/lessons`)
     .then(response => {
@@ -10,7 +18,9 @@ function getLessons() {
     });
 }
 
-
+/* ----------------------------------------------------------
+   POST /orders — save a new order
+   ---------------------------------------------------------- */
 function saveOrder(order) {
   return fetch(`${API_BASE_URL}/orders`, {
     method: 'POST',
@@ -25,6 +35,9 @@ function saveOrder(order) {
     });
 }
 
+/* ----------------------------------------------------------
+   PUT /lessons/:id — update a lesson (used to update spaces)
+   ---------------------------------------------------------- */
 function updateLessonSpace(id, newSpace) {
   return fetch(`${API_BASE_URL}/lessons/${id}`, {
     method: 'PUT',
@@ -39,7 +52,9 @@ function updateLessonSpace(id, newSpace) {
     });
 }
 
-
+/* ----------------------------------------------------------
+   CHALLENGE — Search: GET /lessons/search?q=...
+   ---------------------------------------------------------- */
 function searchLessons(term) {
   return fetch(`${API_BASE_URL}/lessons/search?q=${encodeURIComponent(term)}`)
     .then(response => {
@@ -48,6 +63,9 @@ function searchLessons(term) {
     });
 }
 
+/* ----------------------------------------------------------
+   CHALLENGE — Teachers: GET /teachers
+   ---------------------------------------------------------- */
 function getTeachers() {
   return fetch(`${API_BASE_URL}/teachers`)
     .then(response => {
@@ -56,6 +74,9 @@ function getTeachers() {
     });
 }
 
+/* ----------------------------------------------------------
+   CHALLENGE — Teachers: GET /teachers/:id/lessons
+   ---------------------------------------------------------- */
 function getTeacherLessons(teacherId) {
   return fetch(`${API_BASE_URL}/teachers/${teacherId}/lessons`)
     .then(response => {
@@ -64,6 +85,9 @@ function getTeacherLessons(teacherId) {
     });
 }
 
+/* ----------------------------------------------------------
+   CHALLENGE — Enrolment: GET /enrolment/:lessonId
+   ---------------------------------------------------------- */
 function getEnrolment(lessonId) {
   return fetch(`${API_BASE_URL}/enrolment/${lessonId}`)
     .then(response => {
