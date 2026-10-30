@@ -223,7 +223,60 @@
 
         <h4 class="text-end mb-4">Total: £{{ cartTotal }}</h4>
 
-        
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title mb-3">Checkout</h5>
+
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Letters only"
+                  v-model="name"
+                >
+                <small
+                  v-if="name && !nameIsValid"
+                  class="text-danger"
+                >
+                  Name must contain letters only.
+                </small>
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">Phone</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Numbers only, at least 10 digits"
+                  v-model="phone"
+                >
+                <small
+                  v-if="phoneError"
+                  class="text-danger"
+                >
+                  {{ phoneError }}
+                </small>
+              </div>
+            </div>
+
+            <button
+              class="btn btn-success mt-3"
+              :disabled="!isCheckoutValid"
+              @click="checkout"
+            >
+              <i class="fas fa-check me-2"></i>Checkout
+            </button>
+
+            <div
+              v-if="orderMessage"
+              :class="['alert', orderSuccess ? 'alert-success' : 'alert-danger', 'mt-3']"
+            >
+              {{ orderMessage }}
+            </div>
+          </div>
+        </div>        
 
       </div>
     </div>      
