@@ -127,6 +127,59 @@
         No lessons match your search.
       </div>
 
+      <div class="row">
+        <div
+          class="col-md-4 mb-4"
+          v-for="lesson in sortedLessons"
+          :key="lesson.id"
+        >
+          <div class="card h-100 shadow-sm lesson-card">
+            <div class="card-body text-center">
+              <i :class="lesson.icon" class="fa-3x text-primary mb-3"></i>
+              <h5 class="card-title">{{ lesson.topic }}</h5>
+              <p class="card-text mb-1">
+                <i class="fas fa-map-marker-alt me-2 text-secondary"></i>
+                {{ lesson.location }}
+              </p>
+              <p class="card-text mb-1">
+                <i class="fas fa-tag me-2 text-secondary"></i>
+                £{{ lesson.price }}
+              </p>
+              <p class="card-text">
+                <i class="fas fa-chair me-2 text-secondary"></i>
+                Spaces left: <strong>{{ lesson.space }}</strong>
+              </p>
+            </div>
+            <div class="card-footer bg-white border-0 pb-3">
+              <button
+                class="btn btn-primary w-100"
+                :disabled="lesson.space === 0"
+                @click="addToCart(lesson)"
+              >
+                <i class="fas fa-cart-plus me-2"></i>
+                {{ lesson.space === 0 ? 'Sold Out' : 'Add to Cart' }}
+              </button>
+              <button
+                class="btn btn-sm btn-outline-info w-100 mt-2"
+                @click="toggleEnrolment(lesson.id)"
+              >
+                <i class="fas fa-users me-1"></i>
+                {{ showEnrolment[lesson.id] ? 'Hide' : 'Show' }} Enrolment
+              </button>
+              <p
+                v-if="showEnrolment[lesson.id]"
+                class="mt-2 mb-0 small text-center"
+              >
+                Enrolled:
+                <strong>
+                  {{ enrolment[lesson.id] !== undefined ? enrolment[lesson.id] : 'loading…' }}
+                </strong>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 
