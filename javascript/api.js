@@ -3,7 +3,7 @@
    uses fetch() with promises
    ============================================================= */
 
-const API_BASE_URL = 'http://localhost:3000';
+const API_BASE_URL = 'https://m01026868-afterschool.onrender.com';
 
 /* ----------------------------------------------------------
    GET /lessons — retrieve all lessons
