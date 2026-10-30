@@ -180,6 +180,54 @@
         </div>
       </div>
 
+    <div v-else>
+
+      <h1 class="mb-4">Shopping Cart</h1>
+
+      <div v-if="cart.length === 0" class="alert alert-info">
+        Your cart is empty.
+      </div>
+
+      <div v-else>
+
+        <div class="row">
+          <div
+            class="col-md-4 mb-4"
+            v-for="(item, index) in cart"
+            :key="index"
+          >
+            <div class="card h-100 shadow-sm lesson-card">
+              <div class="card-body text-center">
+                <i :class="item.icon" class="fa-3x text-primary mb-3"></i>
+                <h5 class="card-title">{{ item.topic }}</h5>
+                <p class="card-text mb-1">
+                  <i class="fas fa-map-marker-alt me-2 text-secondary"></i>
+                  {{ item.location }}
+                </p>
+                <p class="card-text">
+                  <i class="fas fa-tag me-2 text-secondary"></i>
+                  £{{ item.price }}
+                </p>
+              </div>
+              <div class="card-footer bg-white border-0 pb-3">
+                <button
+                  class="btn btn-sm btn-outline-danger w-100"
+                  @click="removeFromCart(index)"
+                >
+                  <i class="fas fa-trash me-1"></i>Remove
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h4 class="text-end mb-4">Total: £{{ cartTotal }}</h4>
+
+        
+
+      </div>
+    </div>      
+
     </div>
   </div>
 
