@@ -13,6 +13,30 @@
 <body>
 
 <div id="app">
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="#" @click.prevent="showCart = false">
+        <i class="fas fa-graduation-cap me-2"></i>Afterschool Club
+      </a>
+
+      <button
+        class="btn btn-light position-relative"
+        :disabled="!showCart && cart.length === 0"
+        @click="toggleCart"
+      >
+        <i class="fas fa-shopping-cart me-1"></i>
+        {{ showCart ? 'Back to Lessons' : 'Cart' }}
+        <span
+          v-if="cart.length > 0"
+          class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+        >
+          {{ cart.length }}
+        </span>
+      </button>
+    </div>
+  </nav>
+
 </div>
 
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
