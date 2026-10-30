@@ -1,9 +1,16 @@
+/* =============================================================
+   CST3144 — Full Stack Development
+   Front-End Vue.js application for the Afterschool Club
+   ============================================================= */
+
 const { createApp } = Vue;
 
 createApp({
 
+  /* ============================== DATA ============================== */
   data() {
     return {
+      // Core
       lessons: [],
       cart: [],
       showCart: false,
@@ -11,23 +18,30 @@ createApp({
       sortOrder: 'asc',
       loading: true,
 
+      // Checkout form
       name: '',
       phone: '',
       orderMessage: '',
       orderSuccess: false,
 
+      // Search (challenge)
       searchTerm: '',
 
+      // Teachers (challenge)
       teachers: [],
       selectedTeacherId: '',
 
+      // Enrolment (challenge)
       enrolment: {},
       showEnrolment: {}
     };
   },
 
+  /* ============================ COMPUTED ============================ */
   computed: {
 
+    /* Apply in-cart reductions to DB state without mutating this.lessons.
+       Displayed space = DB space − number of that lesson currently in cart. */
     displayLessons() {
       const cartCounts = {};
       this.cart.forEach(item => {
@@ -40,6 +54,7 @@ createApp({
       }));
     },
 
+    /* Sort displayLessons by chosen attribute, asc/desc */
     sortedLessons() {
       const lessons = [...this.displayLessons];
       const attr = this.sortBy;
@@ -63,14 +78,17 @@ createApp({
       return this.cart.reduce((sum, item) => sum + item.price, 0);
     },
 
+    /* Name = letters only */
     nameIsValid() {
       return /^[A-Za-z]+$/.test(this.name);
     },
 
+    /* Phone = numbers only, minimum 10 digits */
     phoneIsValid() {
       return /^[0-9]{10,}$/.test(this.phone);
     },
 
+    /* Dynamic phone error — specific message based on what's wrong */
     phoneError() {
       if (!this.phone) return '';
       if (!/^[0-9]+$/.test(this.phone)) {
@@ -87,8 +105,10 @@ createApp({
     }
   },
 
+  /* ============================= METHODS ============================ */
   methods: {
 
+    /* -------- Core: load all lessons (with local fallback) -------- */
     loadLessons() {
       this.loading = true;
       getLessons()
@@ -103,6 +123,7 @@ createApp({
         });
     },
 
+    /* ------------------- CHALLENGE: Search ------------------- */
     performSearch() {
       const term = this.searchTerm.trim();
       if (!term) { this.clearSearch(); return; }
@@ -133,6 +154,7 @@ createApp({
       this.loadLessons();
     },
 
+    /* ------------------- CHALLENGE: Teachers ------------------- */
     loadTeachers() {
       getTeachers()
         .then(data => { this.teachers = data; })
@@ -159,6 +181,7 @@ createApp({
         });
     },
 
+    /* ------------------- CHALLENGE: Enrolment ------------------- */
     toggleEnrolment(lessonId) {
       if (this.showEnrolment[lessonId]) {
         this.showEnrolment[lessonId] = false;
@@ -173,6 +196,7 @@ createApp({
         });
     },
 
+    /* --------------------- Core: cart operations --------------------- */
     addToCart(lesson) {
       this.orderMessage = '';
       if (lesson.space > 0) {
@@ -198,7 +222,9 @@ createApp({
       this.showCart = !this.showCart;
     },
 
+    /* ------------------------- Core: checkout ------------------------- */
     checkout() {
+      // Group cart items by lessonId and count quantities
       const lessonMap = {};
       this.cart.forEach(item => {
         lessonMap[item.originalId] = (lessonMap[item.originalId] || 0) + 1;
@@ -218,6 +244,7 @@ createApp({
         lessons
       };
 
+      // Snapshot spaceAtAdd per lesson before clearing cart
       const spaceSnapshots = {};
       this.cart.forEach(item => {
         if (!(item.originalId in spaceSnapshots)) {
@@ -237,6 +264,7 @@ createApp({
           this.orderSuccess = true;
           this.orderMessage = `Order submitted successfully! Thank you, ${this.name}.`;
 
+          // Reset state
           this.cart              = [];
           this.name              = '';
           this.phone             = '';
@@ -244,6 +272,7 @@ createApp({
           this.selectedTeacherId = '';
           this.searchTerm        = '';
 
+          // Refetch so display reflects updated DB space values
           this.loadLessons();
         })
         .catch(err => {
@@ -254,6 +283,7 @@ createApp({
     }
   },
 
+  /* ============================ LIFECYCLE ============================ */
   mounted() {
     this.loadLessons();
     this.loadTeachers();
