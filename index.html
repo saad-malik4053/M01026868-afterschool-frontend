@@ -37,6 +37,99 @@
     </div>
   </nav>
 
+  <div class="container my-4">
+
+    <div v-if="!showCart">
+
+      <div
+        v-if="orderMessage && orderSuccess"
+        class="alert alert-success alert-dismissible fade show"
+        role="alert"
+      >
+        <i class="fas fa-check-circle me-2"></i>
+        <strong>Success!</strong> {{ orderMessage }}
+        <button
+          type="button"
+          class="btn-close"
+          aria-label="Close"
+          @click="orderMessage = ''"
+        ></button>
+      </div>
+
+      <h1 class="mb-4">Available Lessons</h1>
+
+      <div class="row g-3 mb-4 align-items-end">
+
+        <div class="col-md-3">
+          <label class="form-label fw-semibold">Search</label>
+          <form @submit.prevent="performSearch">
+            <div class="input-group">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Search lessons..."
+                v-model="searchTerm"
+              >
+              <button type="submit" class="btn btn-outline-primary">
+                <i class="fas fa-search"></i>
+              </button>
+              <button
+                v-if="searchTerm"
+                type="button"
+                class="btn btn-outline-secondary"
+                @click="clearSearch"
+              >
+                Clear
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label fw-semibold">Teacher</label>
+          <select
+            class="form-select"
+            v-model="selectedTeacherId"
+            @change="onTeacherChange"
+          >
+            <option value="">All teachers</option>
+            <option
+              v-for="teacher in teachers"
+              :key="teacher._id"
+              :value="teacher._id"
+            >
+              {{ teacher.firstName }} {{ teacher.lastName }}
+            </option>
+          </select>
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label fw-semibold">Sort by</label>
+          <select class="form-select" v-model="sortBy">
+            <option value="topic">Subject</option>
+            <option value="location">Location</option>
+            <option value="price">Price</option>
+            <option value="space">Spaces</option>
+          </select>
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label fw-semibold">Order</label>
+          <select class="form-select" v-model="sortOrder">
+            <option value="asc">Ascending</option>
+            <option value="desc">Descending</option>
+          </select>
+        </div>
+      </div>
+
+      <div v-if="loading" class="alert alert-info">Loading lessons…</div>
+      <div v-else-if="sortedLessons.length === 0" class="alert alert-warning">
+        No lessons match your search.
+      </div>
+
+    </div>
+  </div>
+
 </div>
 
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
