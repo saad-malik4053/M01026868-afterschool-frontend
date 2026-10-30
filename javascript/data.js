@@ -1,3 +1,9 @@
+/* =============================================================
+   Local lesson data — used as a development fallback when the
+   back-end server is not reachable. When the Express server
+   is deployed, the app will fetch lessons from the API instead.
+   ============================================================= */
+
 const LOCAL_LESSONS = [
   { id: 1,  topic: 'Mathematics',         location: 'Hendon',       price: 100, space: 5, icon: 'fas fa-calculator' },
   { id: 2,  topic: 'Computer Science',    location: 'Colindale',    price: 120, space: 5, icon: 'fas fa-laptop-code' },
